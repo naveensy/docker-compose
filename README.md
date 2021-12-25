@@ -1,5 +1,12 @@
-## To have two app images use the below command while using docker-compose
+## Services in docker-compose
+
+- App-server
+- App-server-dupe
+- Nginx LB
+- pecona-mysql
+
+## Running the apps
 ```
-docker-compose up --scale app-server=2
+docker-compose up 
 ```
 
