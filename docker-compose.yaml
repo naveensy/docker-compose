@@ -21,6 +21,14 @@ services:
         networks: 
             - "app_net"
 
+    app-server-dupe:
+        image: app-server-dupe
+        build: 
+            context: ./app-server-dupe
+            dockerfile: Dockerfile
+        networks: 
+            - "app_net"
+
     ngnix-server:
         image: nginx:1.13
         container_name: loadbalancer
@@ -32,6 +40,7 @@ services:
             - "app_net"
         depends_on: 
             - app-server
+            - app-server-dupe
 
 networks: 
     app_net:
