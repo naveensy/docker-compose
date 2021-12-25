@@ -1,0 +1,40 @@
+version: "3.7"
+
+services: 
+    pecona-mysql:
+      image: "percona:ps-8.0"
+      container_name: mysql-percona
+      volumes:
+        - percona-data:/var/lib/mysql
+      ports:
+        - 3306:3306
+      environment:
+        - MYSQL_DATABASE=percona
+        - MYSQL_USER=percona
+        - MYSQL_ROOT_PASSWORD=example
+        
+    app-server:
+        image: app-server
+        build: 
+            context: ./app-server
+            dockerfile: Dockerfile
+        networks: 
+            - "app_net"
+
+    ngnix-server:
+        image: nginx:1.13
+        container_name: loadbalancer
+        ports: 
+            - "8080:80"
+        volumes: 
+            - './ngnix.conf:/etc/ngnix/nginx.conf'
+        networks: 
+            - "app_net"
+        depends_on: 
+            - app-server
+
+networks: 
+    app_net:
+
+volumes:
+  percona-data:
